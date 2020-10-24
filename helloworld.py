@@ -82,6 +82,8 @@ if(agree=='单个样本分析'):
 
 elif(agree=='特征值分布分析'):
 	#获取各种控制字
+	st.write("查看指定种类信号的指定两维特征值的分布情况")
+	st.write("汉字乱码问题待修复")
 	featureX = st.sidebar.selectbox('X' , featureN[:-1])#字符串
 	featureY = st.sidebar.selectbox('Y' , [i for i in featureN if i !=featureX] ,index=39 )#字符串
 	st.sidebar.text('* Y设置为 lable 可查看一维特征分布')
@@ -106,6 +108,7 @@ elif(agree=='特征值分布分析'):
 	st.pyplot(figure2)
 
 elif(agree=='分类器测试'):
+	st.write("功能测试中")
 	st.sidebar.write('超参数设置')
 	knnPointNum = st.sidebar.number_input('KNN-点数', min_value=1, max_value=20, value=5, step=1)
 	if(st.sidebar.button('启动分类器测试')):
@@ -118,6 +121,7 @@ elif(agree=='分类器测试'):
 			trainID[i]=np.array(j)+i*150
 			testID[i]=np.array([i for i in dataID if i not in j])+i*150
 		trainFeature=feature.iloc[trainID.ravel()]
+		trainFeature
 		testFeature=feature.iloc[testID.ravel()]
 
 

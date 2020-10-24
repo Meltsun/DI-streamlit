@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
+import random
 
 #import matplotlib
 #matplotlib.use('TkAgg')
@@ -27,10 +28,11 @@ featureN=feature.columns#特征值名
 
 
 st.title('分布式光纤传感系统的扰动信号分析')
-agree = st.sidebar.radio("分析模式",['单个样本','一类样本'])
+st.title('【本程序仍在开发中，预计11月初完成】')
+agree = st.sidebar.radio("模式",['特征值分布分析','单个样本分析','分类器测试'])
 st.sidebar.write('---')
 
-if(agree=='单个样本'):
+if(agree=='单个样本分析'):
 	#获取侧栏的控制字
 	dsType = st.sidebar.selectbox('扰动类型' , dsTypeN)
 	
@@ -78,8 +80,7 @@ if(agree=='单个样本'):
 	else:
 		'（还在做 -_-||）'
 
-
-elif(agree=='一类样本'):
+elif(agree=='特征值分布分析'):
 	#获取各种控制字
 	featureX = st.sidebar.selectbox('X' , featureN[:-1])#字符串
 	featureY = st.sidebar.selectbox('Y' , [i for i in featureN if i !=featureX] ,index=39 )#字符串
@@ -104,6 +105,25 @@ elif(agree=='一类样本'):
 		plt.legend(loc = 'best')
 	st.pyplot(figure2)
 
+elif(agree=='分类器测试'):
+	st.sidebar.write('超参数设置')
+	knnPointNum = st.sidebar.number_input('KNN-点数', min_value=1, max_value=20, value=5, step=1)
+	if(st.sidebar.button('启动分类器测试')):
+		dataID=[i for i in range(0,150)]
+		trainNum=120
+		trainID=np.empty([5,trainNum],dtype=int)
+		testID=np.empty([5,150-trainNum],dtype=int)
+		for i in range(0,5):
+			j=random.sample(dataID, trainNum)
+			trainID[i]=np.array(j)+i*150
+			testID[i]=np.array([i for i in dataID if i not in j])+i*150
+		trainFeature=feature.iloc[trainID.ravel()]
+		testFeature=feature.iloc[testID.ravel()]
+
+
+
+else:
+	st.write("没做完 = =")
 
 st.write('---')
 st.write('请在侧栏从上至下依次设置参数')

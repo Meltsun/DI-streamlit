@@ -1,16 +1,17 @@
+import streamlit as st
 import numpy as np
 import pandas as pd
-import streamlit as st
 import pickle
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import preprocessing
 from PIL import Image
+import pywt
 
 #import matplotlib
 #matplotlib.use('TkAgg')
 import matplotlib as mpl
-mpl.rcParams['font.sans-serif'] = ['KaiTi']
-mpl.rcParams['font.serif'] = ['KaiTi']
+mpl.rcParams['font.sans-serif'] = ['SimHei']
+mpl.rcParams['font.serif'] = ['SimHei']
 mpl.rcParams['axes.unicode_minus'] = False 
 import matplotlib.pyplot as plt
 
@@ -114,19 +115,67 @@ if(agree=='单个样本分析'):
 		st.dataframe(pd.DataFrame(dFeature[8:]).T)
 
 	elif(dsCruve=='小波包分解'):
+		#小波包分解
+		wp=pywt.WaveletPacket(data=data,wavelet='db3',mode='symmetric',maxlevel=2) #2层小波包分解
+		new_wp = pywt.WaveletPacket(data=None, wavelet='db3', mode='symmetric',maxlevel=2) #新建小波包树用来重构4个节点系数
+
+		new_wp['aa'] = wp['aa']
+		LL=new_wp.reconstruct(update=False)
+
+
+		del(new_wp['aa'])
+		new_wp['ad'] = wp['ad']
+		LH=new_wp.reconstruct(update=False)
+		
+
+		del(new_wp['a'])
+		new_wp['da'] = wp['da']
+		HL=new_wp.reconstruct(update=False)
+
+
+		del(new_wp['da'])
+		new_wp['dd'] = wp['dd']
+		HH=new_wp.reconstruct(update=False)
+
 		dFeature=feature.iloc[dsType*150+dsNumber][:-1][30:40]
-		st.dataframe(pd.DataFrame(dFeature[0:5]).T)
-		st.dataframe(pd.DataFrame(dFeature[5:]).T)
 		dsCruveWP = st.sidebar.selectbox('选择小波图像' , ['最低频','低频','高频','最高频'])
 		#根据dsCruveWP的值（字符串）画不同的图
-
+		if(dsCruveWP=='最低频'):
+			figure1=plt.figure()
+			plt.plot([i for i in range(0,len(LL))],LL)
+			plt.xlabel('样本点')
+			plt.ylabel('分解系数')
+			plt.title(dsCruveWP)
+			st.pyplot(figure1)
+		elif(dsCruveWP=='低频'):
+			figure1=plt.figure()
+			plt.plot([i for i in range(0,len(LH))],LH)
+			plt.xlabel('样本点')
+			plt.ylabel('分解系数')
+			plt.title(dsCruveWP)
+			st.pyplot(figure1)
+		elif(dsCruveWP=='高频'):
+			figure1=plt.figure()
+			plt.plot([i for i in range(0,len(HL))],HL)
+			plt.xlabel('样本点')
+			plt.ylabel('分解系数')
+			plt.title(dsCruveWP)
+			st.pyplot(figure1)
+		elif(dsCruveWP=='最高频'):
+			figure1=plt.figure()
+			plt.plot([i for i in range(0,len(HH))],HH)
+			plt.xlabel('样本点')
+			plt.ylabel('分解系数')
+			plt.title(dsCruveWP)
+			st.pyplot(figure1)
+		st.dataframe(pd.DataFrame(dFeature[0:5]).T)
+		st.dataframe(pd.DataFrame(dFeature[5:]).T)
 	else:
 		'（还在做 -_-||）'
 
 elif(agree=='特征值分布分析'):
 	#获取各种控制字
 	st.write("查看指定种类信号的指定两维特征值的分布情况")
-	st.write("汉字乱码问题待修复")
 	featureX = st.sidebar.selectbox('X' , featureN[:-1])#字符串
 	featureY = st.sidebar.selectbox('Y' , [i for i in featureN if i !=featureX] ,index=39 )#字符串
 	st.sidebar.text('* Y设置为 lable 可查看一维特征分布')

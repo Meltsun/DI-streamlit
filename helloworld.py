@@ -174,14 +174,14 @@ if(agree=='单个样本分析'):
 			plt.ylabel('分解系数')
 			plt.title(dsCruveWP)
 			st.pyplot(figure1)
-		elif(dsCruveWP=='高频'):
+		elif(dsCruveWP=='最高频'):
 			figure1=plt.figure()
 			plt.plot([i for i in range(0,len(HL))],HL)
 			plt.xlabel('样本点')
 			plt.ylabel('分解系数')
 			plt.title(dsCruveWP)
 			st.pyplot(figure1)
-		elif(dsCruveWP=='最高频'):
+		elif(dsCruveWP=='高频'):
 			figure1=plt.figure()
 			plt.plot([i for i in range(0,len(HH))],HH)
 			plt.xlabel('样本点')
@@ -330,14 +330,14 @@ elif(agree=='识别测试'):
 				plt.ylabel('分解系数')
 				plt.title(dsCruveWP)
 				st.pyplot(figure1)
-			elif(dsCruveWP=='高频'):
+			elif(dsCruveWP=='最高频'):
 				figure1=plt.figure()
 				plt.plot([i for i in range(0,len(HL))],HL)
 				plt.xlabel('样本点')
 				plt.ylabel('分解系数')
 				plt.title(dsCruveWP)
 				st.pyplot(figure1)
-			elif(dsCruveWP=='最高频'):
+			elif(dsCruveWP=='高频'):
 				figure1=plt.figure()
 				plt.plot([i for i in range(0,len(HH))],HH)
 				plt.xlabel('样本点')
@@ -351,9 +351,8 @@ elif(agree=="简介"):
 	'---'
 	st.header("项目概述")
 	"""
-	"超长周界安防预警系统"是一个用于国境线、输油管线、机场或大型基地周边等场景的长周界安防预警系统。
-	本系统将与新型传感器紧密结合，使用多种机器学习算法和信号处理手段，最终实现对入侵行为的自动识别与报警
-	。本项目即是为上述系统设计算法并开发软件。
+	“超长周界安防预警系统”主要用于国境线、输油管线、机场周边等长周界场景的安防工作。系统与光纤传感器紧密
+	结合，使用多种机器学习 算法和信号处理手段，实现对入侵行为的自动识别。本项目即是为上述系统设计算法并开发软件。
 	"""
 	image = Image.open('image1.png')
 	st.image(image, caption='分布式光纤扰动传感系统',width=690)
@@ -389,5 +388,5 @@ if(agree!="简介"):
 	st.text('点击左上角 > 打开侧栏')
 	st.text('发生错误时请尝试点击右上角 ☰ → Clear cache 清除缓存')
 	st.text('本应用基于python-streamlit ， 右上角有小人在动即正在加载，请稍等')
-	st.text('数据更新时间：'+'2020年11月13日18:38:19')
+	st.text('更新时间：'+'2020年11月17日17:42:25')
 	st.text('by BJTU_WXY')
